@@ -1,7 +1,12 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Pixelify_Sans, Inter, Jersey_10 } from "next/font/google";
 import "./globals.css";
 
+import Provider from "./provider";
+import {
+  ClerkProvider,
+} from '@clerk/nextjs'
+import { Toaster } from "@/components/ui/sonner";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -10,6 +15,17 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+});
+
+const GameFont = Jersey_10({
+  subsets: ['latin'],
+  variable: '--font-game',
+  weight: ['400']
+})
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
 });
 
 export const metadata: Metadata = {
@@ -23,12 +39,25 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="en" suppressHydrationWarning={true} >
+        <body
+          className={`${geistSans.variable} ${geistMono.variable}
+        ${GameFont.variable} ${inter.variable}
+        antialiased`}
+        >
+          <Provider
+            attribute="class"
+            defaultTheme="dark"
+            enableSystem
+            disableTransitionOnChange
+          >
+            {children}
+            <Toaster />
+          </Provider>
+
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
