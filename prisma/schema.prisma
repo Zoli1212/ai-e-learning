@@ -15,8 +15,9 @@ datasource db {
 
 model User {
   id        Int       @id @default(autoincrement())
-  name      String    @db.VarChar(255)
-  email     String    @db.VarChar(255) @unique
+  name      String?   @db.VarChar(255)
+  email     String?   @db.VarChar(255) @unique
+  clerkId   String    @unique
   points    Int       @default(0)
   subscription String?
   createdAt DateTime  @default(now())

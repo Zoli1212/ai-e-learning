@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { ThemeProvider as NextThemesProvider, useTheme } from "next-themes"
 import { useUser } from '@clerk/nextjs';
 import { UserDetailContext } from '@/context/UserDetailContext';
-import { createNewUser } from './actions/user';
+import { createNewUser } from '../actions/user';
 import Header from './_components/Header';
 function Provider({
     children,
