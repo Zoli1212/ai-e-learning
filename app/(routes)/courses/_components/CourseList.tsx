@@ -1,10 +1,10 @@
 "use client"
 import { Skeleton } from '@/components/ui/skeleton'
-import axios from 'axios'
 import { ChartNoAxesColumnIncreasingIcon } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
+import { getCourses } from '@/actions/course'
 
 export type Course = {
     id: number,
@@ -13,7 +13,7 @@ export type Course = {
     desc: string,
     level: string,
     bannerImage: string,
-    tag: string,
+    tags: string | null,
     chapters?: Chapter[],
     userEnrolled?: boolean,
     courseEnrolledInfo?: CourseEnrolledInfo,
@@ -62,9 +62,9 @@ function CourseList({ smallerCard = false, maxLimit = 100 }: Props) {
 
     const GetAllCourses = async () => {
         setLoading(true);
-        const result = await axios.get('/api/course');
+        const result = await getCourses();
         console.log(result);
-        setCourseList(result?.data);
+        setCourseList(result);
         setLoading(false);
     }
 

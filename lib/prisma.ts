@@ -11,7 +11,7 @@ const prisma =
       process.env.NODE_ENV === "development"
         ? ["error", "warn"]
         : ["error"],
-  } as any);
+  });
 
 if (process.env.NODE_ENV !== "production") {
   globalForPrisma.prisma = prisma;

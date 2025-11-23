@@ -5,26 +5,31 @@ import { useUser } from '@clerk/nextjs';
 import { UserDetailContext } from '@/context/UserDetailContext';
 import { createNewUser } from '../actions/user';
 import Header from './_components/Header';
+import { User } from '@/lib/generated/prisma';
+
 function Provider({
     children,
     ...props
 }: React.ComponentProps<typeof NextThemesProvider>) {
 
     const { user } = useUser();
-    const [userDetail, setUserDetail] = useState();
-    useEffect(() => {
-        user && CreateNewUser();
-    }, [user])
+    const [userDetail, setUserDetail] = useState<User | undefined>();
 
-    const CreateNewUser = async () => {
-        try {
-            const result = await createNewUser(user?.id || '');
-            console.log(result);
-            setUserDetail(result);
-        } catch (error) {
-            console.error('Failed to create user:', error);
-        }
-    }
+    useEffect(() => {
+        const initUser = async () => {
+            if (user?.id) {
+                try {
+                    const result = await createNewUser(user.id);
+                    console.log(result);
+                    setUserDetail(result);
+                } catch (error) {
+                    console.error('Failed to create user:', error);
+                }
+            }
+        };
+
+        initUser();
+    }, [user])
 
     return (
         <NextThemesProvider

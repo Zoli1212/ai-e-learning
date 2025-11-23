@@ -14,8 +14,8 @@ import {
 import Link from 'next/link'
 import { UserButton, useUser } from '@clerk/nextjs'
 import { useParams, usePathname } from 'next/navigation'
-import axios from 'axios'
 import { Course } from '../(routes)/courses/_components/CourseList'
+import { getCourses } from '@/actions/course'
 
 // const courses = [
 //     {
@@ -86,9 +86,9 @@ function Header() {
     }, [])
 
     const GetCourses = async () => {
-        const result = await axios.get('/api/course');
-        console.log(result.data);
-        setCourses(result.data);
+        const result = await getCourses();
+        console.log(result);
+        setCourses(result);
     }
 
     return (
